@@ -1,11 +1,7 @@
-import { User } from "firebase/auth";
-import { getUser, logOut } from "./firebase/auth";
 import Profile from "./Profile";
-import { useRequiredUser, useUser } from "./useUser";
+import { useRequiredUser } from "./useUser";
 
-export type GameProps = {};
-
-const Game = ({}: GameProps) => {
+const Game = () => {
   const userState = useRequiredUser();
 
   if (userState.state === "loading") return <div>Loading...</div>;

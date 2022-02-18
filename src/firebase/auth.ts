@@ -1,4 +1,4 @@
-import { getAuth, sendSignInLinkToEmail, isSignInWithEmailLink, signInWithEmailLink, UserCredential, User, } from "firebase/auth";
+import { getAuth, sendSignInLinkToEmail, signInWithEmailLink, UserCredential, User, } from "firebase/auth";
 import { app } from "./app";
 
 const actionCodeSettings = {

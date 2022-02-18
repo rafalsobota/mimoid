@@ -9,7 +9,7 @@ const VerifyEmail = () => {
       console.log({ user: user.user.email });
       navigate("/");
     });
-  }, []);
+  }, [navigate]);
 
   return <div>Verifying Email...</div>;
 };
