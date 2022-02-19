@@ -1,5 +1,4 @@
 import Profile from "./Profile";
-import Spaceship from "./Spaceship";
 import { useRequiredUser } from "./useUser";
 
 const Game = () => {
@@ -11,7 +10,6 @@ const Game = () => {
     <div className="flex flex-col h-full">
       <Profile user={userState.user} />
       <div>Game</div>
-      <Spaceship className="flex-grow" />
     </div>
   );
 };
