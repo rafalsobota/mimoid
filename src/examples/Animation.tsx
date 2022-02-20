@@ -1,7 +1,8 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
+import gsap from "gsap";
 
-const Cube = () => {
+const Animation = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -10,35 +11,12 @@ const Cube = () => {
     const axesHelper = new THREE.AxesHelper();
     scene.add(axesHelper);
 
-    const group = new THREE.Group();
-
-    scene.add(group);
-
     const cube1 = new THREE.Mesh(
       new THREE.BoxGeometry(1, 1, 1),
       new THREE.MeshBasicMaterial({ color: 0xff0000 })
     );
 
-    group.add(cube1);
-
-    const cube2 = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 1, 1),
-      new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-    );
-
-    cube2.position.x = -2;
-
-    group.add(cube2);
-
-    const cube3 = new THREE.Mesh(
-      new THREE.BoxGeometry(1, 1, 1),
-      new THREE.MeshBasicMaterial({ color: 0x0000ff })
-    );
-
-    cube3.position.x = 2;
-
-    group.position.y = 1;
-    group.add(cube3);
+    scene.add(cube1);
 
     const sizes = {
       width: 800,
@@ -55,19 +33,40 @@ const Cube = () => {
 
     renderer.setSize(sizes.width, sizes.height);
 
-    renderer.render(scene, camera);
-
     let animationFrameHandle = 0;
 
-    function render(time: number) {
-      animationFrameHandle = requestAnimationFrame(render);
-    }
+    const clock = new THREE.Clock();
 
-    animationFrameHandle = requestAnimationFrame(render);
+    gsap.to(cube1.position, {
+      x: 2,
+      duration: 1,
+      delay: 1,
+    });
+
+    gsap.to(cube1.position, {
+      x: 0,
+      duration: 1,
+      delay: 2,
+    });
+
+    const tick = () => {
+      const elapsedTime = clock.getElapsedTime();
+
+      // cube1.position.x = Math.sin(elapsedTime);
+      // cube1.position.y = Math.cos(elapsedTime);
+      cube1.rotation.y = elapsedTime;
+
+      camera.lookAt(cube1.position);
+
+      renderer.render(scene, camera);
+      animationFrameHandle = requestAnimationFrame(tick);
+    };
+
+    animationFrameHandle = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(animationFrameHandle);
   }, []);
 
   return <canvas ref={canvas}></canvas>;
 };
 
-export default Cube;
+export default Animation;

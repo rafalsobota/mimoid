@@ -8,6 +8,11 @@ import Game from "./Game";
 import Auth from "./Auth";
 import Spaceship from "./Spaceship";
 import Cube from "./examples/Cube";
+import Animation from "./examples/Animation";
+import Camera from "./examples/Camera";
+import Fullscreen from "./examples/Fullscreen";
+import Geometry from "./examples/Geometry";
+import DebugUI from "./examples/DebugUI";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,6 +23,11 @@ ReactDOM.render(
           element={<Spaceship className="w-full h-full" />}
         />
         <Route path="examples/cube" element={<Cube />} />
+        <Route path="examples/animation" element={<Animation />} />
+        <Route path="examples/camera" element={<Camera />} />
+        <Route path="examples/geometry" element={<Geometry />} />
+        <Route path="examples/fullscreen" element={<Fullscreen />} />
+        <Route path="examples/debug" element={<DebugUI />} />
         <Route path="verify-email" element={<VerifyEmail />} />
         <Route
           path="*"

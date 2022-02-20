@@ -7,3 +7,7 @@ body,
 #root {
   height: 100%;
 }
+
+.dg input {
+  line-height: normal;
+}
