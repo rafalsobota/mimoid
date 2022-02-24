@@ -61,7 +61,7 @@ const Fullscreen = () => {
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
 
-    const resizeHanlder = () => {
+    const resizeHandler = () => {
       sizes.width = window.innerWidth;
       sizes.height = window.innerHeight;
       camera.aspect = sizes.width / sizes.height;
@@ -70,13 +70,13 @@ const Fullscreen = () => {
       updatePixelRation();
     };
 
-    window.addEventListener("resize", resizeHanlder);
+    window.addEventListener("resize", resizeHandler);
 
     destructors.push(() => {
-      window.removeEventListener("resize", resizeHanlder);
+      window.removeEventListener("resize", resizeHandler);
     });
 
-    const doubleClickHadnler = () => {
+    const doubleClickHandler = () => {
       const c = canvas.current!;
       const fullscreenElement =
         document.fullscreenElement ||
@@ -102,10 +102,10 @@ const Fullscreen = () => {
       }
     };
 
-    window.addEventListener("dblclick", doubleClickHadnler);
+    window.addEventListener("dblclick", doubleClickHandler);
 
     destructors.push(() => {
-      window.removeEventListener("dblclick", doubleClickHadnler);
+      window.removeEventListener("dblclick", doubleClickHandler);
     });
 
     const tick = () => {

@@ -13,6 +13,9 @@ import Camera from "./examples/Camera";
 import Fullscreen from "./examples/Fullscreen";
 import Geometry from "./examples/Geometry";
 import DebugUI from "./examples/DebugUI";
+import Textures from "./examples/Textures";
+import { Materials } from "./examples/Materials";
+import { Fonts } from "./examples/Fonts";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -28,6 +31,10 @@ ReactDOM.render(
         <Route path="examples/geometry" element={<Geometry />} />
         <Route path="examples/fullscreen" element={<Fullscreen />} />
         <Route path="examples/debug" element={<DebugUI />} />
+        <Route path="examples/textures" element={<Textures />} />
+        <Route path="examples/materials" element={<Materials />} />
+        <Route path="examples/fonts" element={<Fonts />} />
+
         <Route path="verify-email" element={<VerifyEmail />} />
         <Route
           path="*"
