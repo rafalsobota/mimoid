@@ -17,6 +17,8 @@ const DebugUIExample = React.lazy(() => import("./examples/DebugUI"));
 const TexturesExample = React.lazy(() => import("./examples/Textures"));
 const MaterialsExample = React.lazy(() => import("./examples/Materials"));
 const FontsExample = React.lazy(() => import("./examples/Fonts"));
+const LightsExample = React.lazy(() => import("./examples/Lights"));
+const ShadowsExample = React.lazy(() => import("./examples/Shadows"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -36,6 +38,8 @@ ReactDOM.render(
           <Route path="examples/textures" element={<TexturesExample />} />
           <Route path="examples/materials" element={<MaterialsExample />} />
           <Route path="examples/fonts" element={<FontsExample />} />
+          <Route path="examples/lights" element={<LightsExample />} />
+          <Route path="examples/shadows" element={<ShadowsExample />} />
 
           <Route path="verify-email" element={<VerifyEmail />} />
           <Route
