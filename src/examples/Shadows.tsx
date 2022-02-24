@@ -153,6 +153,7 @@ const Shadows = () => {
     const pointLightCameraHelper = new THREE.CameraHelper(
       pointLight.shadow.camera
     );
+    pointLightCameraHelper.visible = false;
     scene.add(pointLightCameraHelper);
 
     // Helpers
@@ -177,7 +178,7 @@ const Shadows = () => {
     const spotLightCameraHelper = new THREE.CameraHelper(
       spotLight.shadow.camera
     );
-    spotLightCameraHelper.visible = true;
+    spotLightCameraHelper.visible = false;
     scene.add(spotLightCameraHelper);
     spotLightGui.add(spotLightCameraHelper, "visible").name("Camera Helper");
 
