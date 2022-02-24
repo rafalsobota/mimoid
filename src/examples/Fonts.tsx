@@ -6,7 +6,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { makeFullScreen, runRenderLoop } from "./helpers";
 import dat from "dat.gui";
 
-export const Fonts = () => {
+const Fonts = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -155,3 +155,5 @@ export const Fonts = () => {
 
   return <canvas ref={canvas}></canvas>;
 };
+
+export default Fonts;

@@ -4,7 +4,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { runRenderLoop } from "./helpers";
 import dat from "dat.gui";
 
-export const Materials = () => {
+const Materials = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -196,3 +196,5 @@ export const Materials = () => {
 
   return <canvas ref={canvas}></canvas>;
 };
+
+export default Materials;
