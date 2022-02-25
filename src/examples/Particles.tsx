@@ -60,10 +60,10 @@ const Particles = () => {
     const particles = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particles);
 
-    const box = new THREE.Mesh(
-      new THREE.BoxBufferGeometry(1, 1, 1),
-      new THREE.MeshBasicMaterial({ color: 0xffffff })
-    );
+    // const box = new THREE.Mesh(
+    //   new THREE.BoxBufferGeometry(1, 1, 1),
+    //   new THREE.MeshBasicMaterial({ color: 0xffffff })
+    // );
 
     // scene.add(box);
 
