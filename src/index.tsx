@@ -19,6 +19,7 @@ const MaterialsExample = React.lazy(() => import("./examples/Materials"));
 const FontsExample = React.lazy(() => import("./examples/Fonts"));
 const LightsExample = React.lazy(() => import("./examples/Lights"));
 const ShadowsExample = React.lazy(() => import("./examples/Shadows"));
+const HauntedHouseExample = React.lazy(() => import("./examples/HauntedHouse"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -40,6 +41,10 @@ ReactDOM.render(
           <Route path="examples/fonts" element={<FontsExample />} />
           <Route path="examples/lights" element={<LightsExample />} />
           <Route path="examples/shadows" element={<ShadowsExample />} />
+          <Route
+            path="examples/haunted-house"
+            element={<HauntedHouseExample />}
+          />
 
           <Route path="verify-email" element={<VerifyEmail />} />
           <Route

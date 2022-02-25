@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 export const runRenderLoop = (tick: (time: number) => void): (() => void) => {
   let animationFrameHandle = 0;
 
@@ -32,4 +34,11 @@ export const makeFullScreen = (camera: THREE.PerspectiveCamera, renderer: THREE.
   return () => {
     window.removeEventListener("resize", updateSize);
   };
+}
+
+export function setUV2(geometry: THREE.BufferGeometry) {
+  geometry.setAttribute(
+    "uv2",
+    new THREE.Float32BufferAttribute(geometry.attributes.uv.array, 2)
+  );
 }

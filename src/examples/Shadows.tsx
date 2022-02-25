@@ -1,10 +1,8 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
-import { RectAreaLightHelper } from "three/examples/jsm/helpers/RectAreaLightHelper";
 import { makeFullScreen, runRenderLoop } from "./helpers";
 import dat from "dat.gui";
-import { SphereBufferGeometry } from "three";
 
 const Shadows = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
@@ -20,7 +18,7 @@ const Shadows = () => {
     const textureLoader = new THREE.TextureLoader();
     const matcapTexture = textureLoader.load("/textures/matcaps/8.png");
 
-    const bakedShadow = textureLoader.load("/textures/bakedShadow.jpg");
+    // const bakedShadow = textureLoader.load("/textures/bakedShadow.jpg");
     const simpleShadow = textureLoader.load("/textures/simpleShadow.jpg");
 
     /**
