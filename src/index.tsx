@@ -21,6 +21,9 @@ const LightsExample = React.lazy(() => import("./examples/Lights"));
 const ShadowsExample = React.lazy(() => import("./examples/Shadows"));
 const HauntedHouseExample = React.lazy(() => import("./examples/HauntedHouse"));
 const ParticlesExample = React.lazy(() => import("./examples/Particles"));
+const GalaxyGeneratorExample = React.lazy(
+  () => import("./examples/GalaxyGenerator")
+);
 
 ReactDOM.render(
   <React.StrictMode>
@@ -47,6 +50,10 @@ ReactDOM.render(
             element={<HauntedHouseExample />}
           />
           <Route path="examples/particles" element={<ParticlesExample />} />
+          <Route
+            path="examples/galaxy-generator"
+            element={<GalaxyGeneratorExample />}
+          />
 
           <Route path="verify-email" element={<VerifyEmail />} />
           <Route
