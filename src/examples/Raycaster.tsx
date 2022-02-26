@@ -152,11 +152,9 @@ const Raycaster = () => {
       if (intersects.length > 0) {
         if (currentIntersect?.object !== intersects[0].object) {
           currentIntersect = intersects[0];
-          console.log("mouse enter", currentIntersect.object.id);
         }
       } else {
         if (currentIntersect) {
-          console.log("mouse leave", currentIntersect.object.id);
           currentIntersect = null;
         }
       }
