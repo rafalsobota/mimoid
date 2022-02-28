@@ -26,6 +26,7 @@ const GalaxyGeneratorExample = React.lazy(
 );
 const RaycasterExample = React.lazy(() => import("./examples/Raycaster"));
 const ScrollExample = React.lazy(() => import("./examples/Scroll"));
+const PhysicsExample = React.lazy(() => import("./examples/Physics"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -58,6 +59,7 @@ ReactDOM.render(
           />
           <Route path="examples/raycaster" element={<RaycasterExample />} />
           <Route path="examples/scroll" element={<ScrollExample />} />
+          <Route path="examples/physics" element={<PhysicsExample />} />
 
           <Route path="verify-email" element={<VerifyEmail />} />
           <Route
