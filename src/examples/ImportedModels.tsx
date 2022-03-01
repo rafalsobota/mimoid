@@ -1,11 +1,9 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
-import dat from "dat.gui";
-import * as CANNON from "cannon-es";
+// import dat from "dat.gui";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
-import { MixOperation } from "three";
 
 const Physics = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
@@ -17,7 +15,7 @@ const Physics = () => {
      * Base
      */
     // Debug
-    const gui = new dat.GUI();
+    // const gui = new dat.GUI();
 
     // Scene
     const scene = new THREE.Scene();
@@ -47,7 +45,7 @@ const Physics = () => {
         scene.add(gltf.scene);
         // [...gltf.scene.children].forEach((e) => scene.add(e));
       },
-      (p) => {
+      () => {
         // console.log("progress", p);
       },
       (e) => {
