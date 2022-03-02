@@ -30,6 +30,7 @@ const PhysicsExample = React.lazy(() => import("./examples/Physics"));
 const ImportedModelsExample = React.lazy(
   () => import("./examples/ImportedModels")
 );
+const HamburgerExample = React.lazy(() => import("./examples/Hamburger"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -67,6 +68,7 @@ ReactDOM.render(
             path="examples/imported-models"
             element={<ImportedModelsExample />}
           />
+          <Route path="examples/hamburger" element={<HamburgerExample />} />
 
           <Route path="verify-email" element={<VerifyEmail />} />
           <Route
