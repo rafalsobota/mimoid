@@ -7,7 +7,6 @@ import VerifyEmail from "./VerifyEmail";
 import Game from "./Game";
 import Auth from "./Auth";
 import Spaceship from "./Spaceship";
-import Ship from "./scenes/Ship";
 
 const CubeExample = React.lazy(() => import("./examples/Cube"));
 const AnimationExample = React.lazy(() => import("./examples/Animation"));
@@ -32,13 +31,14 @@ const ImportedModelsExample = React.lazy(
   () => import("./examples/ImportedModels")
 );
 const HamburgerExample = React.lazy(() => import("./examples/Hamburger"));
+const LazyShip = React.lazy(() => import("./scenes/Ship"));
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div>Loading...</div>}>
       <BrowserRouter>
         <Routes>
-          <Route path="ship" element={<Ship />} />
+          <Route path="ship" element={<LazyShip />} />
           <Route
             path="spaceship"
             element={<Spaceship className="w-full h-full" />}

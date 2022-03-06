@@ -1,6 +1,5 @@
-import { Plane, Sphere } from "@react-three/drei";
+import { Plane } from "@react-three/drei";
 import { ThreeEvent } from "@react-three/fiber";
-import { useState } from "react";
 import { Vector3 } from "three";
 
 type FloorProps = {
