@@ -7,6 +7,7 @@ import VerifyEmail from "./VerifyEmail";
 import Game from "./Game";
 import Auth from "./Auth";
 import Spaceship from "./Spaceship";
+import Ship from "./scenes/Ship";
 
 const CubeExample = React.lazy(() => import("./examples/Cube"));
 const AnimationExample = React.lazy(() => import("./examples/Animation"));
@@ -37,6 +38,7 @@ ReactDOM.render(
     <Suspense fallback={<div>Loading...</div>}>
       <BrowserRouter>
         <Routes>
+          <Route path="ship" element={<Ship />} />
           <Route
             path="spaceship"
             element={<Spaceship className="w-full h-full" />}
