@@ -1,5 +1,6 @@
 import { Plane } from "@react-three/drei";
-import { ThreeEvent } from "@react-three/fiber";
+import { ThreeEvent, useThree } from "@react-three/fiber";
+import { useEffect } from "react";
 import { Vector3 } from "three";
 
 type FloorProps = {
@@ -18,7 +19,7 @@ const Floor = (props: FloorProps) => {
   return (
     <>
       <Plane args={[30, 30]} rotation={[-Math.PI / 2, 0, 0]} onClick={onClick}>
-        <meshBasicMaterial attach="material" />
+        <meshBasicMaterial attach="material" color="orange" />
       </Plane>
       {/* {balls.map((ball, index) => (
         <Sphere key={index} args={[0.2, 32, 32]} position={ball}>
