@@ -1,11 +1,6 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  OrbitControls,
-  PerspectiveCamera,
-  useAnimations,
-  useGLTF,
-} from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { PerspectiveCamera, useAnimations, useGLTF } from "@react-three/drei";
+import { useFrame } from "@react-three/fiber";
 import { Object3D, Vector3 } from "three";
 
 export type CharacterProps = {
@@ -30,9 +25,9 @@ export default function Alien({ position, moveTarget }: CharacterProps) {
   //   camera.lookAt(0, 0, 0);
   // }, [camera]);
 
-  useEffect(() => {
-    console.log({ idleGLTF, idleActions });
-  }, []);
+  // useEffect(() => {
+  //   console.log({ idleGLTF, idleActions });
+  // }, []);
 
   const playWalkAction = useCallback(() => {
     actions[names[0]]!.reset().fadeIn(0.3).play();
