@@ -1,5 +1,10 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { PerspectiveCamera, useAnimations, useGLTF } from "@react-three/drei";
+import {
+  // OrbitControls,
+  PerspectiveCamera,
+  useAnimations,
+  useGLTF,
+} from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { Object3D, Vector3 } from "three";
 
@@ -113,7 +118,7 @@ export default function Alien({ position, moveTarget }: CharacterProps) {
         rotation={[0.3, Math.PI, 0]}
         near={1}
         far={1000}
-        makeDefault
+        // makeDefault
       />
       <group ref={character}>
         <PerspectiveCamera

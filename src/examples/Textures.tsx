@@ -122,10 +122,10 @@ const Textures = () => {
 
     renderer.setSize(sizes.width, sizes.height);
 
-    const updatePixelRation = () => {
+    const updatePixelRatio = () => {
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     };
-    updatePixelRation();
+    updatePixelRatio();
 
     let animationFrameHandle = 0;
 
@@ -138,7 +138,7 @@ const Textures = () => {
       camera.aspect = sizes.width / sizes.height;
       camera.updateProjectionMatrix();
       renderer.setSize(sizes.width, sizes.height);
-      updatePixelRation();
+      updatePixelRatio();
     };
 
     window.addEventListener("resize", resizeHanlder);
