@@ -22,20 +22,13 @@ export default function Alien({ position, moveTarget }: CharacterProps) {
   const { ref, actions, names } = useAnimations(animations);
   const [walking, setWalking] = useState(false);
 
-  const walkAction = useMemo(() => {
-    if (names.length < 1) return;
-    const action = actions[names[0]];
-    console.log({ actions, names, action });
-    return action || undefined;
+  const playWalkAction = useCallback(() => {
+    actions[names[0]]!.reset().fadeIn(0.3).play();
   }, [actions, names]);
 
-  const playWalkAction = useCallback(() => {
-    walkAction?.reset().fadeIn(0.3).play();
-  }, [walkAction]);
-
   const stopWalkAction = useCallback(() => {
-    walkAction?.fadeOut(0.1);
-  }, [walkAction]);
+    actions[names[0]]!.fadeOut(0.1);
+  }, [actions, names]);
 
   useEffect(() => {
     if (walking) {
@@ -47,7 +40,8 @@ export default function Alien({ position, moveTarget }: CharacterProps) {
 
   useEffect(() => {
     character.current!.position.copy(position);
-  }, [position]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     character.current!.lookAt(moveTarget);
@@ -81,4 +75,4 @@ export default function Alien({ position, moveTarget }: CharacterProps) {
   );
 }
 
-useGLTF.preload("/assets/SM_Chr_Alien_01.gltf");
+useGLTF.preload("/assets/Walking/Alien.gltf");
