@@ -1,29 +1,57 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import {
+  OrbitControls,
   // OrbitControls,
-  PerspectiveCamera,
   useAnimations,
   useGLTF,
 } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { Object3D, Vector3 } from "three";
+import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils";
 
 export type CharacterProps = {
   position: Vector3;
   moveTarget: Vector3;
+  defaultCamera?: true;
+  name?: string;
+  clickLock?: React.MutableRefObject<boolean>;
 };
 
-export default function Alien({ position, moveTarget }: CharacterProps) {
+export default function Alien({
+  name,
+  position,
+  moveTarget,
+  defaultCamera,
+  clickLock,
+}: CharacterProps) {
   const character = useRef<Object3D>();
-  const camera1 = useRef<typeof PerspectiveCamera | null>(null);
-  const camera2 = useRef<typeof PerspectiveCamera | null>(null);
+  // const camera1 = useRef<typeof PerspectiveCamera | null>(null);
+  const orbitControls = useRef<any>(null);
   // const head = useRef<Object3D>();
   // const neck = useRef<Object3D>();
   const { nodes, animations } = useGLTF("/assets/Walking/Alien.gltf");
+  const characterModel: Object3D = useMemo(() => {
+    // (nodes.Scene as any).debugoid = name;
+    // console.log({ name, nodes, SkeletonUtils });
+    return (SkeletonUtils as any).clone(nodes.Scene);
+  }, [nodes.Scene]);
   const idleGLTF = useGLTF("/assets/Walking/Idle.gltf");
-  const { ref, actions, names } = useAnimations(animations);
-  const idleActions = useAnimations(idleGLTF.animations, character);
+  const { actions, names } = useAnimations(animations, characterModel);
+  const idleActions = useAnimations(idleGLTF.animations, characterModel);
   const [walking, setWalking] = useState(false);
+  const { camera } = useThree();
+
+  useEffect(() => {
+    if (defaultCamera) {
+      camera.position.copy(position).add(new Vector3(0, 5, -5));
+    }
+  }, [defaultCamera, camera, position]);
 
   // useEffect(() => {
   //   camera.position.set(0, 5, 5);
@@ -54,6 +82,8 @@ export default function Alien({ position, moveTarget }: CharacterProps) {
 
   useEffect(() => {
     character.current!.position.copy(position);
+    console.log({ characterModel });
+    // characterModel.mesh.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -83,7 +113,19 @@ export default function Alien({ position, moveTarget }: CharacterProps) {
         setWalking(true);
       }
 
-      model.position.add(vectorToGo.multiplyScalar(delta * 1.5));
+      const movement = vectorToGo.multiplyScalar(delta * 1.5);
+
+      model.position.add(movement);
+
+      orbitControls.current!.target.copy(
+        model.position.clone().add(new Vector3(0, 1.5, 0))
+      );
+      // camera2.current!.maxDistance = 100;
+      // camera2.current!.minDistance = 1;
+      // // console.log(camera2.current!);
+      orbitControls.current!.object.position.add(movement);
+
+      // cameraCenter.current.copy(model.position);
 
       // model.rotation.toVector3().lerp(vectorToGo.normalize(), 0.5);
 
@@ -109,33 +151,71 @@ export default function Alien({ position, moveTarget }: CharacterProps) {
     }
   });
 
+  // const preventDefault = (e: any) => {
+  //   console.log("prevent", e);
+  //   e?.preventDefault();
+  //   e?.stopPropagation();
+  // };
+
+  // const lockClick = () => {
+  //   if (clickLock) {
+  //     console.log("lockClick");
+  //     clickLock.current = true;
+  //   }
+  // };
+
+  // const unlockClick = () => {
+  //   if (clickLock) {
+  //     setTimeout(() => {
+  //       console.log("unlockClick");
+  //       clickLock.current = false;
+  //     }, 0);
+  //   }
+  // };
+
   return (
     <>
       {/* <OrbitControls /> */}
-      <PerspectiveCamera
+      {/* <PerspectiveCamera
         ref={camera2}
         position={[0, 5, -7]}
         rotation={[0.3, Math.PI, 0]}
         near={1}
         far={1000}
         // makeDefault
-      />
+      /> */}
       <group ref={character}>
-        <PerspectiveCamera
-          ref={camera1}
-          position={[0, 5, -7]}
-          rotation={[0.3, Math.PI, 0]}
-          near={1}
-          far={1000}
-          makeDefault
-        />
+        {defaultCamera ? (
+          <>
+            {/* <PerspectiveCamera
+              ref={camera1}
+              position={[0, 5, -7]}
+              rotation={[0.3, Math.PI, 0]}
+              near={1}
+              far={1000}
+              makeDefault
+            /> */}
+            <OrbitControls
+              enablePan={false}
+              ref={orbitControls}
+              target={[0, 1.5, 0]}
+              minDistance={2}
+              maxDistance={20}
+            />
+          </>
+        ) : null}
+
         <group scale={[0.01, 0.01, 0.01]}>
-          <primitive ref={ref} object={nodes.Scene}></primitive>
+          <primitive
+            object={characterModel}
+            // onPointerOver={onPointerEnter}
+            // onPointerOut={onPointerLeave}
+          ></primitive>
         </group>
       </group>
     </>
   );
 }
 
-useGLTF.preload("/assets/Walking/Alien.gltf");
-useGLTF.preload("/assets/Walking/Idle.gltf");
+// useGLTF.preload("/assets/Walking/Alien.gltf");
+// useGLTF.preload("/assets/Walking/Idle.gltf");

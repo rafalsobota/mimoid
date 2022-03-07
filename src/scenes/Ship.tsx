@@ -1,5 +1,5 @@
 import { Canvas } from "@react-three/fiber";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import * as THREE from "three";
 import Floor from "../assets/Floor";
 import Alien from "../assets/Alien";
@@ -8,11 +8,28 @@ import Space from "../assets/Space";
 const Ship = () => {
   const [moveTarget, setMoveTarget] = useState(new THREE.Vector3(0, 0, 0));
 
+  const playerPosition = useMemo(() => new THREE.Vector3(0, 0, 0), []);
+  const enemyPosition = useMemo(() => new THREE.Vector3(3, 0, 0), []);
+
   return (
-    <Canvas>
+    <Canvas dpr={window.devicePixelRatio} mode="concurrent">
       <ambientLight />
+      <hemisphereLight args={["#f08fff", "#99e3e2"]} />
       <Floor onClick={setMoveTarget} />
-      <Alien position={new THREE.Vector3(0, 0, 0)} moveTarget={moveTarget} />
+      {/* <OrbitControls /> */}
+      <Alien
+        key="enemy"
+        name="enemy"
+        position={enemyPosition}
+        moveTarget={enemyPosition}
+      />
+      <Alien
+        key="player"
+        name="player"
+        position={playerPosition}
+        moveTarget={moveTarget}
+        defaultCamera
+      />
       <Space />
     </Canvas>
   );

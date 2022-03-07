@@ -8,16 +8,18 @@ type FloorProps = {
   onClick?: (point: Vector3) => void;
 };
 
-const Floor = (props: FloorProps) => {
+const Floor = ({ onClick }: FloorProps) => {
   // const [balls, setBalls] = useState<Vector3[]>([]);
   const texture = useTexture(
     "/assets/Alien/PolygonSciFiSpace_Texture_01_A.jpg"
   );
 
-  const onClick = (event: ThreeEvent<MouseEvent>) => {
-    // console.log(event);
-    // setBalls([...balls, event.point]);
-    props.onClick && props.onClick(event.point);
+  const onClickHandler = (e: ThreeEvent<MouseEvent>) => {
+    if (onClick) {
+      if (e.delta < 2) {
+        onClick(e.point);
+      }
+    }
   };
 
   useEffect(() => {
@@ -33,7 +35,9 @@ const Floor = (props: FloorProps) => {
       <Plane
         args={[30, 30, 30, 30]}
         rotation={[-Math.PI / 2, 0, 0]}
-        onClick={onClick}
+        onClick={onClickHandler}
+        // onPointerDown={onPointerDown}
+        // onPointerUp={onPointerUp}
       >
         <meshBasicMaterial attach="material" color="cyan" wireframe />
       </Plane>
