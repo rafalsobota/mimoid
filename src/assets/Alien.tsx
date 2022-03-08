@@ -19,16 +19,12 @@ export type CharacterProps = {
   position: Vector3;
   moveTarget: Vector3;
   defaultCamera?: true;
-  name?: string;
-  clickLock?: React.MutableRefObject<boolean>;
 };
 
 export default function Alien({
-  name,
   position,
   moveTarget,
   defaultCamera,
-  clickLock,
 }: CharacterProps) {
   const character = useRef<Object3D>();
   // const camera1 = useRef<typeof PerspectiveCamera | null>(null);
@@ -99,7 +95,6 @@ export default function Alien({
 
   useFrame((state, delta) => {
     const model = character.current!;
-
     const distanceToGo = model.position.distanceTo(moveTarget);
     const vectorToGo = moveTarget.clone().sub(model.position).normalize();
     if (distanceToGo < 0.1) {
@@ -117,14 +112,15 @@ export default function Alien({
 
       model.position.add(movement);
 
-      orbitControls.current!.target.copy(
-        model.position.clone().add(new Vector3(0, 1.5, 0))
-      );
-      // camera2.current!.maxDistance = 100;
-      // camera2.current!.minDistance = 1;
-      // // console.log(camera2.current!);
-      orbitControls.current!.object.position.add(movement);
-
+      if (orbitControls.current) {
+        orbitControls.current!.target.copy(
+          model.position.clone().add(new Vector3(0, 1.5, 0))
+        );
+        // camera2.current!.maxDistance = 100;
+        // camera2.current!.minDistance = 1;
+        // // console.log(camera2.current!);
+        orbitControls.current!.object.position.add(movement);
+      }
       // cameraCenter.current.copy(model.position);
 
       // model.rotation.toVector3().lerp(vectorToGo.normalize(), 0.5);

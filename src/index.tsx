@@ -32,12 +32,14 @@ const ImportedModelsExample = React.lazy(
 );
 const HamburgerExample = React.lazy(() => import("./examples/Hamburger"));
 const LazyShip = React.lazy(() => import("./scenes/Ship"));
+const LazyChat = React.lazy(() => import("./scenes/Chat"));
 
 ReactDOM.render(
   <React.StrictMode>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div className="p-2">Loading...</div>}>
       <BrowserRouter>
         <Routes>
+          <Route path="chat" element={<LazyChat />} />
           <Route path="ship" element={<LazyShip />} />
           <Route
             path="spaceship"
@@ -74,13 +76,14 @@ ReactDOM.render(
 
           <Route path="verify-email" element={<VerifyEmail />} />
           <Route
-            path="*"
+            path="auth"
             element={
               <Auth>
                 <Game />
               </Auth>
             }
           />
+          <Route path="*" element={<LazyShip />} />
         </Routes>
       </BrowserRouter>
     </Suspense>
