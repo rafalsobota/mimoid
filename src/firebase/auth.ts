@@ -1,4 +1,4 @@
-import { getAuth, sendSignInLinkToEmail, signInWithEmailLink, UserCredential, User, } from "firebase/auth";
+import { getAuth, sendSignInLinkToEmail, signInWithEmailLink, UserCredential, User } from "firebase/auth";
 import { app } from "./app";
 
 const actionCodeSettings = {
@@ -13,7 +13,7 @@ const actionCodeSettings = {
 export const auth = getAuth(app);
 
 export async function logInWithEmail(email: string) {
-  await sendSignInLinkToEmail(auth, email, actionCodeSettings);
+  await sendSignInLinkToEmail(auth, email, { ...actionCodeSettings, url: window.location.href });
   window.localStorage.setItem('emailForSignIn', email);
 }
 

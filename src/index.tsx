@@ -32,15 +32,14 @@ const ImportedModelsExample = React.lazy(
 );
 const HamburgerExample = React.lazy(() => import("./examples/Hamburger"));
 const LazyShip = React.lazy(() => import("./scenes/Ship"));
-const LazyChat = React.lazy(() => import("./scenes/Chat"));
 
 ReactDOM.render(
   <React.StrictMode>
     <Suspense fallback={<div className="p-2">Loading...</div>}>
       <BrowserRouter>
         <Routes>
-          <Route path="chat" element={<LazyChat />} />
-          <Route path="ship" element={<LazyShip />} />
+          {/* <Route path="chat" element={<LazyChat />} />
+          <Route path="chat/:id" element={<IdChat />} /> */}
           <Route
             path="spaceship"
             element={<Spaceship className="w-full h-full" />}
@@ -83,7 +82,14 @@ ReactDOM.render(
               </Auth>
             }
           />
-          <Route path="*" element={<LazyShip />} />
+          <Route
+            path="*"
+            element={
+              <Auth>
+                <LazyShip />
+              </Auth>
+            }
+          />
         </Routes>
       </BrowserRouter>
     </Suspense>

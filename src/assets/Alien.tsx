@@ -11,21 +11,78 @@ import {
   useAnimations,
   useGLTF,
 } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { Object3D, Vector3 } from "three";
 import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils";
+import { db } from "../firebase/db";
+import { get, onValue, ref, set } from "firebase/database";
+import { APIPosition, APITimeSpacePoint } from "../api";
+import Floor from "./Floor";
 
 export type CharacterProps = {
-  position: Vector3;
-  moveTarget: Vector3;
-  defaultCamera?: true;
+  name: string;
+  id: string;
+  player?: boolean;
+  // position: Vector3;
+  // moveTarget: Vector3;
+  // defaultCamera?: true;
 };
 
-export default function Alien({
-  position,
-  moveTarget,
-  defaultCamera,
-}: CharacterProps) {
+const randomPosition = (): APIPosition => {
+  const x = Math.random() * 20 - 10;
+  const z = Math.random() * 20 - 10;
+  return {
+    start: {
+      x: x,
+      y: 0,
+      z: z,
+      t: 0,
+    },
+    end: {
+      x: x,
+      y: 0,
+      z: z,
+      t: 0,
+    },
+  };
+};
+
+// const offScreenPosition: APIPosition = {
+//   start: {
+//     x: 1000000,
+//     y: 1000000,
+//     z: 1000000,
+//     t: 0,
+//   },
+//   end: {
+//     x: 1000000,
+//     y: 1000000,
+//     z: 1000000,
+//     t: 0,
+//   },
+// };
+
+const speed = 1.6; // m/s
+const rotationSpeed = 10; // rad/s
+
+const toVector3 = (position: APITimeSpacePoint): Vector3 => {
+  return new Vector3(position.x, position.y, position.z);
+};
+
+const currentPosition = (position: APIPosition): Vector3 => {
+  const now = Date.now();
+  const t = Math.min(
+    1,
+    (now - position.start.t) / (position.end.t - position.start.t)
+  );
+  return new Vector3(
+    position.end.x * t + position.start.x * (1 - t),
+    0,
+    position.end.z * t + position.start.z * (1 - t)
+  );
+};
+
+export default function Alien({ name, id, player }: CharacterProps) {
   const character = useRef<Object3D>();
   // const camera1 = useRef<typeof PerspectiveCamera | null>(null);
   const orbitControls = useRef<any>(null);
@@ -41,13 +98,52 @@ export default function Alien({
   const { actions, names } = useAnimations(animations, characterModel);
   const idleActions = useAnimations(idleGLTF.animations, characterModel);
   const [walking, setWalking] = useState(false);
-  const { camera } = useThree();
+  // const { camera } = useThree();
+
+  const positionRef = useRef<APIPosition | null>(null);
 
   useEffect(() => {
-    if (defaultCamera) {
-      camera.position.copy(position).add(new Vector3(0, 5, -5));
+    const dbPosition = ref(db, `paradok/positions/${id}`);
+    if (player) {
+      get(dbPosition).then((snapshot) => {
+        if (snapshot.exists()) {
+          // const position = snapshot.val();
+          // positionRef.current = position;
+        } else {
+          // Init position
+          set(dbPosition, randomPosition());
+        }
+      });
     }
-  }, [defaultCamera, camera, position]);
+    return onValue(dbPosition, (snapshot) => {
+      const position = snapshot.val() as APIPosition;
+      if (!position) {
+        console.warn("empty position");
+      } else {
+        if (positionRef.current === null) {
+          // initialize camera
+          character.current!.position.copy(currentPosition(position));
+          if (player) {
+            orbitControls.current!.object.position.x =
+              character.current!.position.x;
+            orbitControls.current!.object.position.z =
+              character.current!.position.z + 5;
+            orbitControls.current!.object.position.y = 10;
+            orbitControls.current!.target.copy(
+              character.current!.position.clone().add(new Vector3(0, 1.5, 0))
+            );
+          }
+        }
+        positionRef.current = position;
+      }
+    });
+  }, [id, player]);
+
+  // useEffect(() => {
+  //   if (user && user.uid === id) {
+  //     camera.position.copy(position).add(new Vector3(0, 5, -5));
+  //   }
+  // }, [camera, position]);
 
   // useEffect(() => {
   //   camera.position.set(0, 5, 5);
@@ -76,27 +172,35 @@ export default function Alien({
     }
   }, [walking, playWalkAction, stopWalkAction]);
 
-  useEffect(() => {
-    character.current!.position.copy(position);
-    console.log({ characterModel });
-    // characterModel.mesh.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   // useEffect(() => {
   //   // camera.rotation.y = Math.PI;
   //   camera.lookAt(character.current!.position);
   // }, [camera, character]);
 
-  useEffect(() => {
-    // character.current!.lookAt(moveTarget);
-    // character.current!.rotation.y *= -1;
-  }, [moveTarget]);
+  // useEffect(() => {
+  //   // character.current!.lookAt(moveTarget);
+  //   // character.current!.rotation.y *= -1;
+  // }, [moveTarget]);
 
   useFrame((state, delta) => {
     const model = character.current!;
-    const distanceToGo = model.position.distanceTo(moveTarget);
-    const vectorToGo = moveTarget.clone().sub(model.position).normalize();
+
+    if (!positionRef.current) return;
+
+    // Update position
+    const position = currentPosition(positionRef.current);
+    const movement = new Vector3(
+      position.x - model.position.x,
+      position.y - model.position.y,
+      position.z - model.position.z
+    );
+    model.position.x = position.x;
+    model.position.y = position.y;
+    model.position.z = position.z;
+
+    const distanceToGo = position.distanceTo(
+      toVector3(positionRef.current.end)
+    );
     if (distanceToGo < 0.1) {
       // Stop
       if (walking) {
@@ -108,9 +212,7 @@ export default function Alien({
         setWalking(true);
       }
 
-      const movement = vectorToGo.multiplyScalar(delta * 1.5);
-
-      model.position.add(movement);
+      // const movement = vectorToGo.multiplyScalar(delta * 1.5);
 
       if (orbitControls.current) {
         orbitControls.current!.target.copy(
@@ -126,9 +228,9 @@ export default function Alien({
       // model.rotation.toVector3().lerp(vectorToGo.normalize(), 0.5);
 
       const model2 = model.clone();
-      model2.lookAt(moveTarget);
+      model2.lookAt(toVector3(positionRef.current.end));
       const destRotation = model2.quaternion;
-      model.quaternion.slerp(destRotation, 0.1);
+      model.quaternion.slerp(destRotation, delta * rotationSpeed);
 
       // model.rotation.set(vectorToGo.x, vectorToGo.y, vectorToGo.z);
 
@@ -169,8 +271,37 @@ export default function Alien({
   //   }
   // };
 
+  const move = useCallback(
+    (v: Vector3) => {
+      const dbPosition = ref(db, `paradok/positions/${id}`);
+
+      const distance = character.current!.position.distanceTo(v);
+      const duration = Math.floor((distance * 1000) / speed);
+      const startAt = Date.now();
+      const endAt = startAt + duration;
+      const newPosition: APIPosition = {
+        start: {
+          x: character.current!.position.x,
+          y: 0,
+          z: character.current!.position.z,
+          t: startAt,
+        },
+        end: {
+          x: v.x,
+          y: 0,
+          z: v.z,
+          t: endAt,
+        },
+      };
+      positionRef.current = newPosition;
+      set(dbPosition, newPosition);
+    },
+    [id]
+  );
+
   return (
     <>
+      {player ? <Floor onClick={move} /> : null}
       {/* <OrbitControls /> */}
       {/* <PerspectiveCamera
         ref={camera2}
@@ -181,7 +312,7 @@ export default function Alien({
         // makeDefault
       /> */}
       <group ref={character}>
-        {defaultCamera ? (
+        {player ? (
           <>
             {/* <PerspectiveCamera
               ref={camera1}
@@ -192,9 +323,9 @@ export default function Alien({
               makeDefault
             /> */}
             <OrbitControls
-              enablePan={false}
+              enablePan={true}
               ref={orbitControls}
-              target={[0, 1.5, 0]}
+              // target={[0, 1.5, 0]}
               minDistance={2}
               maxDistance={20}
             />
