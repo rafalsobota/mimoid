@@ -299,7 +299,7 @@ export default function Alien({ name, id, player }: CharacterProps) {
     [id]
   );
 
-  if (!player && !positionRef.current) return null;
+  // if (!player && !positionRef.current) return null;
 
   return (
     <>
