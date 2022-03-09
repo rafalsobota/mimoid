@@ -41,6 +41,22 @@ const Floor = ({ onClick }: FloorProps) => {
       >
         <meshBasicMaterial attach="material" color="cyan" wireframe />
       </Plane>
+      <Plane
+        position={[0, -0.01, 0]}
+        args={[30, 30, 30, 30]}
+        rotation={[-Math.PI / 2, 0, 0]}
+        onClick={onClickHandler}
+
+        // onPointerDown={onPointerDown}
+        // onPointerUp={onPointerUp}
+      >
+        <meshBasicMaterial
+          attach="material"
+          color="cyan"
+          transparent={true}
+          opacity={0.2}
+        />
+      </Plane>
       {/* {balls.map((ball, index) => (
         <Sphere key={index} args={[0.2, 32, 32]} position={ball}>
           <meshBasicMaterial attach="material" color="blue" />
