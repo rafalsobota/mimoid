@@ -299,6 +299,8 @@ export default function Alien({ name, id, player }: CharacterProps) {
     [id]
   );
 
+  if (!player && !positionRef.current) return null;
+
   return (
     <>
       {player ? <Floor onClick={move} /> : null}
@@ -331,7 +333,6 @@ export default function Alien({ name, id, player }: CharacterProps) {
             />
           </>
         ) : null}
-
         <group scale={[0.01, 0.01, 0.01]}>
           <primitive
             object={characterModel}
