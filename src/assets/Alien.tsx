@@ -15,7 +15,7 @@ import { useFrame } from "@react-three/fiber";
 import { Object3D, Vector3 } from "three";
 import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils";
 import { db } from "../firebase/db";
-import { get, onValue, ref, set } from "firebase/database";
+import { get, onDisconnect, onValue, ref, set } from "firebase/database";
 import { APIPosition, APITimeSpacePoint } from "../api";
 import Floor from "./Floor";
 
@@ -114,6 +114,7 @@ export default function Alien({ name, id, player }: CharacterProps) {
           set(dbPosition, randomPosition());
         }
       });
+      onDisconnect(dbPosition).remove();
     }
     return onValue(dbPosition, (snapshot) => {
       const position = snapshot.val() as APIPosition;

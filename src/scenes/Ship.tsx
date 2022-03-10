@@ -6,7 +6,7 @@ import Alien from "../assets/Alien";
 import Space from "../assets/Space";
 import { auth, getUser } from "../firebase/auth";
 import { db } from "../firebase/db";
-import { onValue, ref, set } from "firebase/database";
+import { onDisconnect, onValue, ref, set } from "firebase/database";
 
 const Ship = () => {
   // const [moveTarget, setMoveTarget] = useState(new THREE.Vector3(0, 0, 0));
@@ -26,6 +26,7 @@ const Ship = () => {
     if (!user) return;
     const myProfileRef = ref(db, `paradok/profiles/${user.uid}`);
     set(myProfileRef, { name: user.displayName });
+    onDisconnect(myProfileRef).remove();
   });
 
   useEffect(() => {
