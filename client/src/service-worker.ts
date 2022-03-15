@@ -24,6 +24,25 @@ clientsClaim();
 // even if you decide not to use precaching. See https://cra.link/PWA
 precacheAndRoute(self.__WB_MANIFEST);
 
+// // Firebase Storage Fix
+// registerRoute(
+//   ({ url }) => {
+//     console.log('WORKBOX', url);
+//     return url.host === 'firebasestorage.googleapis.com';
+//   },
+//   async ({ url, request }) => {
+//     throw new Error('workbox works');
+//     // console.log('WORKBOX ROUTER', { url, request });
+//     // if (!url) {
+//     //   throw new Error('URL is not provided');
+//     // }
+//     // url.searchParams.set('alt', 'media');
+//     // const href = url.href;
+//     // console.log({ href });
+//     // return fetch(href);
+//   }
+// )
+
 // Set up App Shell-style routing, so that all navigation requests
 // are fulfilled with your index.html shell. Learn more at
 // https://developers.google.com/web/fundamentals/architecture/app-shell

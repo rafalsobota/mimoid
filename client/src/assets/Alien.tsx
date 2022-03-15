@@ -18,6 +18,7 @@ import { db } from "../firebase/db";
 import { get, onDisconnect, onValue, ref, set } from "firebase/database";
 import { APIPosition, APITimeSpacePoint } from "../api";
 import Floor from "./Floor";
+import { walkingAlienGLTFPath } from "./paths";
 
 export type CharacterProps = {
   name: string;
@@ -88,7 +89,16 @@ export default function Alien({ name, id, player }: CharacterProps) {
   const orbitControls = useRef<any>(null);
   // const head = useRef<Object3D>();
   // const neck = useRef<Object3D>();
-  const { nodes, animations } = useGLTF("/assets/Walking/Alien.gltf");
+  const { nodes, animations } = useGLTF(
+    walkingAlienGLTFPath,
+    undefined,
+    undefined,
+    (loader) => {
+      loader.crossOrigin = "no-cors";
+      loader.requestHeader["Access-Control-Allow-Origin"] = "*";
+      loader.requestHeader["Sec-Fetch-Mode"] = "no-cors";
+    }
+  );
   const characterModel: Object3D = useMemo(() => {
     // (nodes.Scene as any).debugoid = name;
     // console.log({ name, nodes, SkeletonUtils });
