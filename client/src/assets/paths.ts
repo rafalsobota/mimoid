@@ -1,5 +1,5 @@
-import { getDownloadURL, ref } from "firebase/storage";
-import { storage } from "../firebase/storage";
+// import { getDownloadURL, ref } from "firebase/storage";
+// import { storage } from "../firebase/storage";
 
 // const bucketPath = 'https://firebasestorage.googleapis.com/v0/b/mimoid.appspot.com/o'
 
