@@ -6,6 +6,8 @@ import dat from "dat.gui";
 import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils";
+// @ts-ignore
+import Stats from "stats.js";
 
 const Benchmark = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
@@ -16,6 +18,13 @@ const Benchmark = () => {
 
     const gui = new dat.GUI();
     destructors.push(() => gui.destroy());
+
+    const stats = new Stats();
+    stats.showPanel(0);
+    document.body.appendChild(stats.dom);
+    destructors.push(() => {
+      document.body.removeChild(stats.dom);
+    });
 
     const scene = new THREE.Scene();
 
@@ -125,6 +134,7 @@ const Benchmark = () => {
     let previousTime = 0;
 
     const tick = () => {
+      stats.begin();
       const elapsedTime = clock.getElapsedTime();
       const deltaTime = elapsedTime - previousTime;
       previousTime = elapsedTime;
@@ -134,6 +144,7 @@ const Benchmark = () => {
       processors.forEach((p) => p(deltaTime));
 
       renderer.render(scene, camera);
+      stats.end();
     };
 
     destructors.push(runRenderLoop(tick));
