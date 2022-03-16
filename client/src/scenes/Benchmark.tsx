@@ -8,6 +8,7 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils";
 // @ts-ignore
 import Stats from "stats.js";
+import { loadavg } from "os";
 
 const Benchmark = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
@@ -42,6 +43,9 @@ const Benchmark = () => {
     const gltfLoader = new GLTFLoader();
     gltfLoader.setDRACOLoader(dracoLoader);
 
+    const sphere = new THREE.SphereGeometry(1, 8, 8);
+    const whiteMaterial = new THREE.MeshBasicMaterial({ color: 0x333333 });
+
     gltfLoader.load(
       "/assets/Walking/Alien.gltf",
       (gltf) => {
@@ -58,12 +62,30 @@ const Benchmark = () => {
             // console.log("success", gltf);
             //  scene.add(gltf.scene);
             characterScene.scale.set(0.025, 0.025, 0.025);
-            characterScene.position.set(i * 10 - 100, 0, j * 10 - 100);
+
+            const lod = new THREE.LOD();
+            lod.addLevel(characterScene, 0);
+
+            // const characterScene2 = (SkeletonUtils as any).clone(gltf.scene);
+            // characterScene2.scale.set(0.025, 0.025, 0.025);
+            // lod.addLevel(characterScene2, 30);
+
+            const basicMesh = new THREE.Mesh(sphere, whiteMaterial);
+            basicMesh.position.y = 2;
+            basicMesh.scale.y = 2;
+
+            lod.addLevel(basicMesh, 50);
+            lod.position.set(i * 10 - 100, 0, j * 10 - 100);
+            // lod.curr
+
             processors.push((t) => {
-              mixer.update(t);
-              characterScene.rotation.y += 0.01;
+              if (lod.getCurrentLevel() === 0) {
+                mixer.update(t);
+              }
+              lod.rotation.y += t * 0.5;
             });
-            scene.add(characterScene);
+            scene.add(lod);
+            // lod.update(camera);
           }
         }
 
