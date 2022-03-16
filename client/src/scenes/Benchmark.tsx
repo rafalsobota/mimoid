@@ -51,7 +51,7 @@ const Benchmark = () => {
           for (let j = 0; j < 20; j++) {
             const characterScene = (SkeletonUtils as any).clone(gltf.scene);
             const mixer = new THREE.AnimationMixer(characterScene);
-            processors.push((t) => mixer.update(t));
+            // processors.push((t) => mixer.update(t));
             const action = mixer.clipAction(gltf.animations[0], characterScene);
             action.play();
 
@@ -60,6 +60,7 @@ const Benchmark = () => {
             characterScene.scale.set(0.025, 0.025, 0.025);
             characterScene.position.set(i * 10 - 100, 0, j * 10 - 100);
             processors.push((t) => {
+              mixer.update(t);
               characterScene.rotation.y += 0.01;
             });
             scene.add(characterScene);
@@ -92,7 +93,10 @@ const Benchmark = () => {
      * Renderer
      */
 
-    const renderer = new THREE.WebGLRenderer({ canvas: canvas.current! });
+    const renderer = new THREE.WebGLRenderer({
+      canvas: canvas.current!,
+      powerPreference: "high-performance",
+    });
     // renderer.shadowMap.enabled = true;
     // renderer.shadowMap.type = THREE.PCFSoftShadowMap;
     // renderer.setClearColor(0x262837);
