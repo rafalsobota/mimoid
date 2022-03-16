@@ -8,7 +8,6 @@ import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import * as SkeletonUtils from "three/examples/jsm/utils/SkeletonUtils";
 // @ts-ignore
 import Stats from "stats.js";
-import { loadavg } from "os";
 
 const Benchmark = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
