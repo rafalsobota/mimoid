@@ -2686,7 +2686,7 @@
         {
             "mimeType": "image/png",
             "name": "PolygonScifi_01_A",
-            "uri": "PolygonScifi_01_A.png?alt=media"
+            "uri": "PolygonScifi_01_A.png"
         }
     ],
     "skins": [
@@ -4321,7 +4321,7 @@
     "buffers": [
         {
             "byteLength": 1043836,
-            "uri": "Alien.bin?alt=media"
+            "uri": "Alien.bin"
         }
     ]
 }

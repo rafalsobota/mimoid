@@ -33,6 +33,7 @@ const ImportedModelsExample = React.lazy(
 const HamburgerExample = React.lazy(() => import("./examples/Hamburger"));
 const LazyShip = React.lazy(() => import("./scenes/Ship"));
 const LazyRTS = React.lazy(() => import("./rts/RTS"));
+const LazyBenchmark = React.lazy(() => import("./scenes/Benchmark"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -45,6 +46,7 @@ ReactDOM.render(
             path="spaceship"
             element={<Spaceship className="w-full h-full" />}
           />
+          <Route path="benchmark" element={<LazyBenchmark />} />
           <Route path="rts" element={<LazyRTS />} />
           <Route path="examples/cube" element={<CubeExample />} />
           <Route path="examples/animation" element={<AnimationExample />} />
