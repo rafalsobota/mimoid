@@ -32,8 +32,9 @@ const ImportedModelsExample = React.lazy(
 );
 const HamburgerExample = React.lazy(() => import("./examples/Hamburger"));
 const LazyShip = React.lazy(() => import("./scenes/Ship"));
-const LazyRTS = React.lazy(() => import("./rts/RTS"));
 const LazyBenchmark = React.lazy(() => import("./scenes/Benchmark"));
+const LazyEcsy = React.lazy(() => import("./scenes/Ecsy"));
+const LazyMimocraft = React.lazy(() => import("./pixi/Mimocraft"));
 
 ReactDOM.render(
   <React.StrictMode>
@@ -46,8 +47,9 @@ ReactDOM.render(
             path="spaceship"
             element={<Spaceship className="w-full h-full" />}
           />
+          <Route path="mimocraft" element={<LazyMimocraft />} />
+          <Route path="ecsy" element={<LazyEcsy />} />
           <Route path="benchmark" element={<LazyBenchmark />} />
-          <Route path="rts" element={<LazyRTS />} />
           <Route path="examples/cube" element={<CubeExample />} />
           <Route path="examples/animation" element={<AnimationExample />} />
           <Route path="examples/camera" element={<CameraExample />} />
