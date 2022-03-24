@@ -105,7 +105,7 @@ const Battle = () => {
   const canvas = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
-    const world = new ECSYThreeWorld();
+    const world = new ECSYThreeWorld({ entityPoolSize: 10000 });
 
     const renderer = new THREE.WebGLRenderer({
       canvas: canvas.current!,
