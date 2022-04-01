@@ -1,3 +1,5 @@
+// https://maxwellforbes.com/posts/typescript-ecs-implementation/
+
 export type Entity = number;
 
 export abstract class Component { };
@@ -106,10 +108,6 @@ export class ECS {
   // API: Systems
 
   public addSystem(system: System): void {
-    // Checking invariant: systems should not have an empty
-    // Components list, or they'll run on every entity. Simply remove
-    // or special case this check if you do want a System that runs
-    // on everything.
     if (system.componentsRequired.size === 0) {
       console.warn("System not added: empty Components list.");
       console.warn(system);
@@ -127,14 +125,6 @@ export class ECS {
     }
   }
 
-  /**
-   * Note: I never actually had a removeSystem() method for the entire
-   * time I was programming the game Fallgate (2 years!). I just added
-   * one here for a specific testing reason (see the next post).
-   * Because it's just for demo purposes, this requires an actual
-   * instance of a System to remove (which would be clunky as a real
-   * API).
-   */
   public removeSystem(system: System): void {
     this.systems.delete(system);
   }
@@ -145,8 +135,6 @@ export class ECS {
    * for removal.
    */
   public update(): void {
-    // Update all systems. (Later, we'll add a way to specify the
-    // update order.)
     for (let [system, entities] of this.systems.entries()) {
       system.update(entities)
     }
@@ -163,7 +151,7 @@ export class ECS {
   private destroyEntity(entity: Entity): void {
     this.entities.delete(entity);
     for (let entities of this.systems.values()) {
-      entities.delete(entity);  // no-op if doesn't have it
+      entities.delete(entity);
     }
   }
 
