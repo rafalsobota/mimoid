@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.3",
     "@react-three/drei": "^8.12.0",
     "@react-three/fiber": "^7.0.26",
     "@tailwindcss/forms": "^0.4.0",
@@ -14,12 +15,14 @@
     "@types/react": "^16.14.23",
     "@types/react-dom": "^16.9.14",
     "cannon-es": "^0.15.1",
+    "craco-raw-loader": "^1.0.2",
     "dat.gui": "^0.7.9",
     "ecsy": "^0.4.2",
     "ecsy-three": "^0.1.3",
     "firebase": "^9.6.7",
     "gsap": "^3.9.1",
     "leva": "^0.9.23",
+    "lil-gui": "^0.16.1",
     "peerjs": "^1.3.2",
     "pixi.js": "^6.2.2",
     "react": "^17.0.2",
@@ -47,10 +50,10 @@
     "zustand": "^3.7.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [
