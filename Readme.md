@@ -14,6 +14,15 @@ Here I integrated [r3f](https://github.com/pmndrs/react-three-fiber) with models
 
 ![Zrzut ekranu 2022-04-1 o 14 53 34](https://user-images.githubusercontent.com/2854949/161267533-44eac856-c2d6-47b6-824e-9ab31609ae15.png)
 
+
+## Shader
+
+My first shader in GLSL
+
+[https://mimoid.web.app/examples/shaders](https://mimoid.web.app/examples/shaders)
+
+![Zrzut ekranu 2022-04-7 o 21 57 11](https://user-images.githubusercontent.com/2854949/162285862-20c23623-d732-427a-b90c-be2163a6397b.png)
+
 ## Scroll driven animations
 
 [https://mimoid.web.app/examples/scroll](https://mimoid.web.app/examples/scroll)
@@ -25,5 +34,7 @@ Here I integrated [r3f](https://github.com/pmndrs/react-three-fiber) with models
 [https://mimoid.web.app/examples/galaxy-generator](https://mimoid.web.app/examples/galaxy-generator)
 
 ![Zrzut ekranu 2022-04-1 o 14 58 56](https://user-images.githubusercontent.com/2854949/161268274-ffe2b462-3c6d-4382-80b3-86e70eb9402d.png)
+
+
 
 There are more examples
