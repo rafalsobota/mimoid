@@ -17,7 +17,8 @@ const Shaders = () => {
     /**
      * Textures
      */
-    // const textureLoader = new THREE.TextureLoader();
+    const textureLoader = new THREE.TextureLoader();
+    const flagTexture = textureLoader.load("/textures/flag-ukraine.webp");
 
     /**
      * Test mesh
@@ -25,16 +26,35 @@ const Shaders = () => {
     // Geometry
     const geometry = new THREE.PlaneGeometry(1, 1, 32, 32);
 
+    const count = geometry.attributes.position.count;
+    const randoms = new Float32Array(count);
+
+    for (let i = 0; i < count; i++) {
+      randoms[i] = Math.random();
+    }
+
+    geometry.setAttribute("aRandom", new THREE.BufferAttribute(randoms, 1));
+
     // Material
     const material = new THREE.RawShaderMaterial({
       vertexShader,
       fragmentShader,
       // wireframe: true,
       side: THREE.DoubleSide,
+      uniforms: {
+        uFrequency: { value: new THREE.Vector2(10, 5) },
+        uTime: { value: 0 },
+        uColor: { value: new THREE.Color("orange") },
+        uTexture: { value: flagTexture },
+      },
     });
+
+    gui.add(material.uniforms.uFrequency.value, "x", 0, 20).name("Frequency X");
+    gui.add(material.uniforms.uFrequency.value, "y", 0, 20).name("Frequency Y");
 
     // Mesh
     const mesh = new THREE.Mesh(geometry, material);
+    mesh.scale.y = 2 / 3;
     scene.add(mesh);
 
     /**
@@ -90,12 +110,14 @@ const Shaders = () => {
      * Render Loop
      */
 
-    // const clock = new THREE.Clock();
+    const clock = new THREE.Clock();
 
     function tick() {
       controls.update();
 
-      // const elapsedTime = clock.getElapsedTime();
+      const elapsedTime = clock.getElapsedTime();
+
+      material.uniforms.uTime.value = elapsedTime;
 
       renderer.render(scene, camera);
     }
