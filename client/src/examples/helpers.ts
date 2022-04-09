@@ -15,7 +15,7 @@ export const runRenderLoop = (tick: (time: number) => void): (() => void) => {
 export const makeFullScreen = (camera: THREE.PerspectiveCamera, renderer: THREE.WebGLRenderer): (() => void) => {
 
   const updatePixelRation = () => {
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1));
   };
 
   const updateSize = () => {
