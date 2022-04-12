@@ -6,7 +6,7 @@ In this project I tried to learn three.js library.
 
 ## Game
 
-Here I integrated [r3f](https://github.com/pmndrs/react-three-fiber) with models and animations tuned in Blender and exported as GLTF files. Then connected with Firebase to add multiplayer functionality.
+Here I integrated [r3f](https://github.com/pmndrs/react-three-fiber) with models and animations tuned in Blender and exported as GLTF files. Then connected to Firebase to add multiplayer functionality.
 
 [https://mimoid.web.app/](https://mimoid.web.app/)
 
