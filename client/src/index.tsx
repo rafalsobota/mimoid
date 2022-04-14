@@ -33,6 +33,7 @@ const ImportedModelsExample = React.lazy(
 const HamburgerExample = React.lazy(() => import("./examples/Hamburger"));
 const ShadersExample = React.lazy(() => import("./examples/Shaders"));
 const Shaders2Example = React.lazy(() => import("./examples/Shaders2"));
+const WaterExample = React.lazy(() => import("./examples/Water"));
 
 const LazyShip = React.lazy(() => import("./scenes/Ship"));
 const LazyBenchmark = React.lazy(() => import("./scenes/Benchmark"));
@@ -81,6 +82,7 @@ ReactDOM.render(
           <Route path="examples/hamburger" element={<HamburgerExample />} />
           <Route path="examples/shaders" element={<ShadersExample />} />
           <Route path="examples/shaders2" element={<Shaders2Example />} />
+          <Route path="examples/water" element={<WaterExample />} />
 
           <Route path="verify-email" element={<VerifyEmail />} />
           <Route
