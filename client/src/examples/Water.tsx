@@ -73,7 +73,7 @@ const Water = () => {
       0.1,
       1000
     );
-    camera.position.set(0.25, -0.25, 1);
+    camera.position.set(0, 1, 2);
     scene.add(camera);
 
     /**
