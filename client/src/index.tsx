@@ -32,6 +32,7 @@ const ImportedModelsExample = React.lazy(
 );
 const HamburgerExample = React.lazy(() => import("./examples/Hamburger"));
 const ShadersExample = React.lazy(() => import("./examples/Shaders"));
+const Shaders2Example = React.lazy(() => import("./examples/Shaders2"));
 
 const LazyShip = React.lazy(() => import("./scenes/Ship"));
 const LazyBenchmark = React.lazy(() => import("./scenes/Benchmark"));
@@ -43,8 +44,6 @@ ReactDOM.render(
     <Suspense fallback={<div className="p-2">Loading...</div>}>
       <BrowserRouter>
         <Routes>
-          {/* <Route path="chat" element={<LazyChat />} />
-          <Route path="chat/:id" element={<IdChat />} /> */}
           <Route
             path="spaceship"
             element={<Spaceship className="w-full h-full" />}
@@ -81,6 +80,7 @@ ReactDOM.render(
           />
           <Route path="examples/hamburger" element={<HamburgerExample />} />
           <Route path="examples/shaders" element={<ShadersExample />} />
+          <Route path="examples/shaders2" element={<Shaders2Example />} />
 
           <Route path="verify-email" element={<VerifyEmail />} />
           <Route
