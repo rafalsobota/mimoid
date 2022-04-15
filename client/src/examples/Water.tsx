@@ -11,6 +11,7 @@ const Water = () => {
 
   useEffect(() => {
     const gui = new dat.GUI({ width: 340 });
+    const debugObject: any = {};
 
     const scene = new THREE.Scene();
 
@@ -25,6 +26,9 @@ const Water = () => {
     // Geometry
     const waterGeometry = new THREE.PlaneGeometry(2, 2, 128, 128);
 
+    debugObject.depthColor = "#186691";
+    debugObject.surfaceColor = "#9bd8ff";
+
     // Material
     const waterMaterial = new THREE.ShaderMaterial({
       vertexShader: waterVertexShader,
@@ -32,7 +36,14 @@ const Water = () => {
       uniforms: {
         uBigWavesElevation: { value: 0.2 },
         uBigWavesFrequency: { value: new THREE.Vector2(4, 1.5) },
-        time: { value: 0 },
+        uTime: { value: 0 },
+        uBigWavesSpeed: { value: 0.75 },
+
+        uDepthColor: { value: new THREE.Color(debugObject.depthColor) },
+        uSurfaceColor: { value: new THREE.Color(debugObject.surfaceColor) },
+
+        uColorOffset: { value: 0.08 },
+        uColorMultiplier: { value: 5 },
       },
     });
 
@@ -57,6 +68,43 @@ const Water = () => {
       .max(10)
       .step(0.001)
       .name("uBigWavesFrequency.y");
+
+    gui
+      .add(waterMaterial.uniforms.uBigWavesSpeed, "value")
+      .min(0)
+      .max(4)
+      .step(0.001)
+      .name("uBigWavesSpeed");
+
+    gui
+      .addColor(debugObject, "depthColor")
+      .name("uDepthColor")
+      .onChange(() => {
+        waterMaterial.uniforms.uDepthColor.value.set(debugObject.depthColor);
+      });
+
+    gui
+      .addColor(debugObject, "surfaceColor")
+      .name("uSurfaceColor")
+      .onChange(() => {
+        waterMaterial.uniforms.uSurfaceColor.value.set(
+          debugObject.surfaceColor
+        );
+      });
+
+    gui
+      .add(waterMaterial.uniforms.uColorOffset, "value")
+      .min(0)
+      .max(10)
+      .step(0.001)
+      .name("uColorOffset");
+
+    gui
+      .add(waterMaterial.uniforms.uColorMultiplier, "value")
+      .min(0)
+      .max(10)
+      .step(0.001)
+      .name("uColorMultiplier");
 
     // Mesh
     const water = new THREE.Mesh(waterGeometry, waterMaterial);
@@ -109,7 +157,7 @@ const Water = () => {
 
       const elapsedTime = clock.getElapsedTime();
 
-      waterMaterial.uniforms.time.value = elapsedTime;
+      waterMaterial.uniforms.uTime.value = elapsedTime;
 
       renderer.render(scene, camera);
     }
